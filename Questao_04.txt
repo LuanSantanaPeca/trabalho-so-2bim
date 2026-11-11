@@ -1,0 +1,10 @@
+Para que os programas Python sejam eficientes na utilização de seus recursos, é necessário um mecanismo que recicle aqueles
+recursos que não estão sendo usados mais. Para isso, existe o coletor de lixo. Cada objeto possui um contador, que conta quantas
+vezes aquele objeto foi referenciado no código, e se o contador chegar a zero, quer dizer que o objeto não é mais utilizado, 
+então a memória que ele ocupava é liberada. Mas tem um problema: um objeto referencia o outro e vice-versa, ou seja, ele sempre 
+terá mais de 1 no contador de referências. Para resolver isso, há o coletor de lixo, que detecta esses ciclos e libera a memória 
+deles. Entretanto, tem o problema da frequência com que os objetos são verificados para saber quais precisam ser liberados: 
+verifique toda hora e isso deixa o programa lento, verifique quase nunca e o programa acumula objetos inúteis. Então, o programa 
+separa os objetos em gerações. Na geração 0, o objeto acabou de ser criado, então é verificado com mais frequência; na 1, ele 
+sobreviveu a uma verificação, então é verificado com menos frequência; e, por fim, na geração 2, ficam os objetos que 
+sobreviveram a mais de uma verificação, sendo verificados ainda menos frequentemente.
