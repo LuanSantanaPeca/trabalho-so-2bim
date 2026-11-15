@@ -19,16 +19,14 @@ import gc
 import statistics
 import time
 
-# ----------------------------------------------------------------------
+
 # CONFIGURAÇÕES
-# ----------------------------------------------------------------------
 N = 1_000_000        # quantidade de variáveis/objetos por teste
 REPETICOES = 10      # número de vezes que cada teste é executado
 
 
-# ----------------------------------------------------------------------
+
 # TESTE 1: "ALOCAÇÃO NA PILHA"
-# ----------------------------------------------------------------------
 def funcao_com_locais():
     """
     Cria variáveis locais. Elas existem apenas durante a execução da
@@ -50,9 +48,8 @@ def teste_pilha():
     return fim - inicio
 
 
-# ----------------------------------------------------------------------
+
 # TESTE 2: ALOCAÇÃO NO HEAP
-# ----------------------------------------------------------------------
 class Objeto:
     """
     Objeto simples alocado dinamicamente no heap.
@@ -75,9 +72,7 @@ def teste_heap():
     return fim - inicio
 
 
-# ----------------------------------------------------------------------
 # EXECUÇÃO REPETIDA E CÁLCULO DA MÉDIA
-# ----------------------------------------------------------------------
 def executar_varias_vezes(teste, repeticoes):
     """Executa um teste várias vezes e devolve a lista de tempos."""
     # Aquecimento (warm-up): uma execução descartada para evitar que
@@ -103,9 +98,7 @@ def main():
 
     gc.enable()
 
-    # ------------------------------------------------------------------
     # ESTATÍSTICAS
-    # ------------------------------------------------------------------
     media_pilha = statistics.mean(tempos_pilha)
     media_heap = statistics.mean(tempos_heap)
     desvio_pilha = statistics.stdev(tempos_pilha)
@@ -118,10 +111,8 @@ def main():
 
     # Fator de proporção (ex.: 1,8x mais lento)
     fator = media_heap / media_pilha
-
-    # ------------------------------------------------------------------
+  
     # EXIBIÇÃO DOS RESULTADOS
-    # ------------------------------------------------------------------
     print("=" * 62)
     print(f"{'RESULTADOS':^62}")
     print("=" * 62)
@@ -146,42 +137,4 @@ if __name__ == "__main__":
     main()
 
 
-# ======================================================================
-# EXPLICAÇÃO DOS RESULTADOS (ITEM 4 DO ENUNCIADO)
-# ======================================================================
-#
-# 1) Por que a "pilha" tende a ser mais rápida?
-#    - Variáveis locais vivem no frame da função, que é criado ao chamar
-#      e descartado ao retornar. É um processo simples e previsível
-#      (empilhar/desempilhar), sem precisar "procurar" espaço livre.
-#    - Os valores usados (1, 2, 3) são inteiros pequenos, que o CPython
-#      mantém em cache e reutiliza, então praticamente não há alocação.
-#
-# 2) Por que o heap tende a ser mais lento?
-#    - Cada Objeto(i) exige pedir memória ao alocador (pymalloc),
-#      inicializar o objeto, executar __init__ (uma chamada de função
-#      extra) e depois liberar a memória quando a contagem de
-#      referências chega a zero (del).
-#    - Ou seja: há mais trabalho por operação do que no teste da pilha.
-#
-# 3) Observação sobre a linguagem:
-#    - Em C, a diferença seria muito mais pronunciada e "pura": a pilha
-#      é só mover um ponteiro, enquanto malloc/free envolvem o gerenciador
-#      de memória do sistema. Em Python, como tudo é objeto e há o
-#      overhead do interpretador, a diferença existe mas é mascarada.
-#
-# 4) Possíveis variações nos resultados:
-#    - Carga do sistema: outros programas abertos competem pela CPU e
-#      mudam os tempos entre execuções (por isso usamos média e desvio).
-#    - Versão do Python: versões mais novas (3.11+) otimizam chamadas de
-#      função e podem reduzir a diferença.
-#    - Coletor de lixo: foi desativado aqui; se estivesse ativo, poderia
-#      causar picos de tempo no teste do heap.
-#    - Cache da CPU e fragmentação de memória: podem alterar o tempo de
-#      alocação entre rodadas.
-#    - Escala de frequência da CPU (economia de energia, aquecimento).
-#    - Tamanho/complexidade do objeto: objetos maiores ou com mais
-#      atributos aumentam o custo do heap.
-#    - Por isso, os resultados absolutos mudam de máquina para máquina,
-#      mas a tendência (heap mais lento que pilha) costuma se manter.
-# ======================================================================
+
