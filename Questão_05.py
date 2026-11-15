@@ -1,19 +1,3 @@
-"""
-Comparação de desempenho: alocação na PILHA (stack) vs alocação no HEAP.
-
-Parte B - Prática
-Linguagem escolhida: Python
-
-IMPORTANTE (contexto sobre Python):
-Em Python (CPython), TODOS os objetos vivem no heap. O que muda é o
-que acontece em cada teste:
-  - Teste "pilha": chamamos uma função que cria variáveis locais. O frame
-    da função (com suas variáveis locais) é criado e destruído a cada
-    chamada, simulando o comportamento de variáveis na pilha.
-  - Teste "heap": criamos e destruímos explicitamente instâncias de uma
-    classe, o que exige alocação de memória no heap, execução de
-    __init__ e liberação do objeto (contagem de referências).
-"""
 
 import gc
 import statistics
